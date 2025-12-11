@@ -1,3 +1,6 @@
+### 3.0.1-rc.1
+- Add inquire, codegen, and fetch dependencies
+
 ### 3.0.1-rc.0
 - Fixed the incompatibility issue with Reader and Writer imports
 
