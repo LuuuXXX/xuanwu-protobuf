@@ -13,7 +13,7 @@
   },
   "main": "src/main/ets/dist/protobuf.js",
   "type": "module",
-  "version": "3.0.1-rc.0",
+  "version": "3.0.1-rc.1",
   "tags": [
     "protobufjs",
     "OpenHarmony",
@@ -29,7 +29,10 @@
     "@protobufjs/base64": "^1.1.2",
     "long": "^5.2.1",
     "@protobufjs/aspromise": "^1.1.2",
-    "buffer": "^6.0.3"
+    "buffer": "^6.0.3",
+    "@protobufjs/inquire": "^1.1.0",
+    "@protobufjs/codegen": "^2.0.4",
+    "@protobufjs/fetch": "^1.1.0"
   },
   "license": "BSD License",
   "devDependencies": {},
