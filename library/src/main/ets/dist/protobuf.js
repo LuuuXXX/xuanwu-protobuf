@@ -8098,3 +8098,112 @@ export {
 	BufferWriter
 };
 //# sourceMappingURL=protobuf.js.map
+
+// ================================================================================
+// Rust 高性能加速模块集成
+// High-Performance Rust Acceleration Integration
+// ================================================================================
+(function() {
+	'use strict';
+
+	// 检查模块系统是否可用
+	if (typeof module === 'undefined' || ! module.exports) {
+		console.warn('[Protobuf] Module system not available, skipping Rust integration');
+		return;
+	}
+
+	const protobuf = module.exports;
+
+	// 保存原始 JavaScript 实现
+	protobuf._originalReader = protobuf.Reader;
+	protobuf._originalWriter = protobuf.Writer;
+
+	let rustAvailable = false;
+	let RustReader = null;
+	let RustWriter = null;
+
+	// 尝试加载 Rust 原生模块
+	try {
+		RustReader = require('../rust/src/bindings/reader.js');
+		RustWriter = require('../rust/src/bindings/writer.js');
+
+		// 验证加载成功
+		if (RustReader && RustWriter) {
+			rustAvailable = true;
+
+			// 立即切换到 Rust 实现
+			protobuf.Reader = RustReader;
+			protobuf.Writer = RustWriter;
+
+			console.log('[Protobuf] ✅ Rust high-performance implementation enabled');
+			console.log('[Protobuf] Native Reader:', RustReader._nativeAvailable ?  'YES' : 'NO (JS fallback)');
+			console.log('[Protobuf] Native Writer:', RustWriter._nativeAvailable ? 'YES' :  'NO (JS fallback)');
+		}
+	} catch (err) {
+		console.log('[Protobuf] ℹ️  Using JavaScript implementation');
+		console.debug('[Protobuf] Rust load error:', err. message);
+	}
+
+	/**
+	 * 切换到 Rust 高性能实现
+	 * @returns {boolean} 是否成功切换
+	 */
+	protobuf.useRust = function() {
+		if (rustAvailable && RustReader && RustWriter) {
+			this.Reader = RustReader;
+			this.Writer = RustWriter;
+			console.log('[Protobuf] 🚀 Switched to Rust implementation');
+			return true;
+		}
+		console.warn('[Protobuf] ⚠️  Rust implementation not available');
+		return false;
+	};
+
+	/**
+	 * 切换回 JavaScript 实现
+	 */
+	protobuf.useJS = function() {
+		this.Reader = this._originalReader;
+		this. Writer = this._originalWriter;
+		console.log('[Protobuf] 📦 Switched to JavaScript implementation');
+	};
+
+	/**
+	 * 检查当前是否使用 Rust 实现
+	 * @returns {boolean}
+	 */
+	protobuf.isUsingRust = function() {
+		return this.Reader === RustReader;
+	};
+
+	/**
+	 * 获取当前使用的实现类型
+	 * @returns {string} 'rust' | 'javascript'
+	 */
+	protobuf.getImplementation = function() {
+		return this.isUsingRust() ? 'rust' : 'javascript';
+	};
+
+	/**
+	 * 获取详细的实现信息
+	 * @returns {object} 实现详情
+	 */
+	protobuf.getImplementationDetails = function() {
+		return {
+			current: this.getImplementation(),
+			rustAvailable: rustAvailable,
+			nativeReaderAvailable: RustReader ?  RustReader._nativeAvailable : false,
+			nativeWriterAvailable: RustWriter ?  RustWriter._nativeAvailable : false,
+			jsReaderAvailable:  RustReader ? RustReader._jsAvailable : true,
+			jsWriterAvailable: RustWriter ? RustWriter._jsAvailable : true
+		};
+	};
+
+	// 标记 Rust 可用性
+	protobuf._rustAvailable = rustAvailable;
+	protobuf._rustIntegrated = true;
+
+})();
+// ================================================================================
+// End of Rust Integration
+// ================================================================================
