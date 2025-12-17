@@ -3,7 +3,7 @@
   "version":  "1.0.0",
   "description": "高性能版本 protobuf, 编解码模块由 Rust 重新实现.",
   "types": "src/main/ets/index.d.ts",
-  "main":  "src/main/ets/dist/protobuf.js",
+  "main":  "src/main/ets/index-rust.js",
   "author": "luuux",
   "license":  "Apache-2.0",
   "dependencies": {

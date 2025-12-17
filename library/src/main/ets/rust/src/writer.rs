@@ -25,13 +25,13 @@ use napi_derive_ohos::napi;
 /// 未来版本将探索替代 API（finish_into、consume）以实现真正的零拷贝操作。
 /// Alternative APIs (finish_into, consume) will be explored in future releases
 /// for true zero-copy operation.
-#[napi]
+#[napi(namespace = "")]
 pub struct Writer {
     /// 内部缓冲区 / Internal buffer
     buffer: Vec<u8>,
 }
 
-#[napi]
+#[napi(namespace = "")]
 impl Writer {
     /// 创建新的写入器
     /// Create a new Writer

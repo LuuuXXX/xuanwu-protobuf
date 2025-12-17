@@ -2,12 +2,8 @@ use napi_ohos::bindgen_prelude::*;
 use napi_derive_ohos::napi;
 
 // Core modules for OpenHarmony
-mod reader;    // 零拷贝读取器 / Zero-copy reader
-mod writer;    // 缓冲写入器 / Buffered writer
-
-// Re-export core functionality
-pub use reader::Reader;
-pub use writer::Writer;
+pub mod reader;    // 零拷贝读取器 / Zero-copy reader
+pub mod writer;    // 缓冲写入器 / Buffered writer
 
 // Protocol Buffers 规范常量
 // Protocol Buffers specification constants
@@ -314,4 +310,18 @@ pub fn encode_field_tag(field_number: i64, wire_type: i64) -> Result<Buffer> {
     // Combine field number and wire type
     let tag = (field_number << 3) | wire_type;
     encode_varint(tag)
+}
+
+// ===== 在文件最底部添加这些测试函数 =====
+
+/// 测试函数 - 验证模块加载
+#[napi]
+pub fn hello() -> String {
+    "Rust NAPI module loaded successfully!".to_string()
+}
+
+/// 测试版本
+#[napi]
+pub fn get_module_version() -> String {
+    "1.0.0". to_string()
 }

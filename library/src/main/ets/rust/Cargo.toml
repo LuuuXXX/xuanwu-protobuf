@@ -6,6 +6,7 @@ authors = ["LuuuXXX"]
 description = "High-performance Protocol Buffers for OpenHarmony"
 
 [lib]
+name = "protobuf_rs_ohos"
 crate-type = ["cdylib"]
 
 [dependencies]
@@ -22,4 +23,4 @@ napi-build-ohos = "1.1.0"
 lto = true
 codegen-units = 1
 opt-level = 3
-strip = true
+strip = false

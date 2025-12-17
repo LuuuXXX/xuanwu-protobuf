@@ -23,7 +23,7 @@ use napi_derive_ohos::napi;
 /// This ensures proper lifetime management across the Rust-JS boundary.
 /// 未来版本将根据 NAPI 改进评估真正的零拷贝。
 /// True zero-copy will be evaluated in future releases based on NAPI improvements.
-#[napi]
+#[napi(namespace = "")]
 pub struct Reader {
     /// 缓冲区数据 / Buffer data
     buffer: Vec<u8>,
@@ -31,7 +31,7 @@ pub struct Reader {
     pos: usize,
 }
 
-#[napi]
+#[napi(namespace = "")]
 impl Reader {
     /// 从缓冲区创建新的读取器
     /// Create a new Reader from a buffer
